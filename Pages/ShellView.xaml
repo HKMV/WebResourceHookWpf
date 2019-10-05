@@ -1,0 +1,33 @@
+﻿<Window x:Class="WebResourceHookWpf.Pages.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WebResourceHookWpf.Pages"
+        xmlns:lib="clr-namespace:WebResourceHookWpf.Lib"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="Transparent" WindowStyle="None" AllowsTransparency="True"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="Stylet Start Project" Height="277" Width="419"
+        xmlns:s="https://github.com/canton7/Stylet"
+        Name="ShellViewWin" Topmost="True" MouseLeftButtonDown="MoveWindow">
+    <!-- d:DataContext="{d:DesignInstance local:ShellViewModel}" -->
+    <Grid>
+        <GroupBox Header="资源下载" Style="{DynamicResource MaterialDesignCardGroupBox}" HorizontalAlignment="Left" Height="215" Margin="10,10,0,0" VerticalAlignment="Top" Width="385">
+            <StackPanel HorizontalAlignment="Center">
+                <DockPanel HorizontalAlignment="Center">
+                    <TextBox x:Name="commonUrl" Width="150" materialDesign:HintAssist.Hint="公共url" Text="{Binding CommonUrl,ElementName=ShellViewWin}" />
+                    <TextBox x:Name="resourceName" Width="150" Margin="20 0 0 0" materialDesign:HintAssist.Hint="资源名称" Text="{Binding ResourceName,ElementName=ShellViewWin}" />
+                </DockPanel>
+                <TextBlock Name="DownResInfo" Text="{Binding DownloadResourceInfo}" />
+                <Button Width="60" Margin="10" Content="下载" Click="DownloadResource" IsDefault="True" />
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>
