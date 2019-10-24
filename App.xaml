@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
 
                 <ResourceDictionary>
+                    <!-- 重写主题配色 -->
                     <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#37aefe" />
                 </ResourceDictionary>
 
