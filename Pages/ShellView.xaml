@@ -19,7 +19,7 @@
         Name="ShellViewWin" Topmost="True" MouseLeftButtonDown="MoveWindow">
     <!-- d:DataContext="{d:DesignInstance local:ShellViewModel}" -->
     <Grid>
-        <GroupBox Header="资源下载" Style="{DynamicResource MaterialDesignCardGroupBox}" HorizontalAlignment="Left" Height="215" Margin="10,10,0,0" VerticalAlignment="Top" Width="385" MouseDoubleClick="WinClose">
+        <!--<GroupBox Header="资源下载" Style="{DynamicResource MaterialDesignCardGroupBox}" HorizontalAlignment="Left" Height="215" Margin="10,10,0,0" VerticalAlignment="Top" Width="385" MouseDoubleClick="WinClose">
             <StackPanel HorizontalAlignment="Center">
                 <DockPanel HorizontalAlignment="Center">
                     <TextBox x:Name="commonUrl" Width="150" materialDesign:HintAssist.Hint="公共url" Text="{Binding CommonUrl,ElementName=ShellViewWin}" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" />
@@ -33,6 +33,107 @@
                     </Button>
                 </DockPanel>
             </StackPanel>
-        </GroupBox>
+        </GroupBox>-->
+
+        <materialDesign:Card Height="210" Width="340" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <StackPanel>
+                <Grid Width="auto" HorizontalAlignment="Stretch" Background="{StaticResource PrimaryHueMidBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Padding="15 5" HorizontalAlignment="Stretch" Background="{StaticResource PrimaryHueMidBrush}"
+                               FontFamily="黑体">
+                        <TextBlock Grid.Column="0" Text="| " Foreground="AntiqueWhite" />
+                        <TextBlock Grid.Column="0" Text="资源下载" Foreground="Aqua" />
+                    </TextBlock>
+                    <TextBlock Grid.Column="1" Text="双击这里关闭程序" HorizontalAlignment="Center" Foreground="Red" VerticalAlignment="Center">
+                        <TextBlock.InputBindings>
+                            <MouseBinding MouseAction="LeftDoubleClick" Command="{s:Action WinClose}" />
+                        </TextBlock.InputBindings>
+                    </TextBlock>
+                </Grid>
+
+                <DockPanel HorizontalAlignment="Center" Margin="0 30 0 0">
+                    <TextBox x:Name="commonUrl" Width="150" materialDesign:HintAssist.Hint="公共url" Text="{Binding CommonUrl,ElementName=ShellViewWin}" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" />
+                    <TextBox x:Name="resourceName" Width="150" Margin="20 0 0 0" materialDesign:HintAssist.Hint="资源相对路径" Text="{Binding ResourceName,ElementName=ShellViewWin}" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" />
+                </DockPanel>
+                <TextBlock Name="DownResInfo" Text="{Binding DownloadResourceInfo}" />
+                <DockPanel HorizontalAlignment="Center">
+                    <Button Width="60" Margin="10" Content="下载" Click="DownloadResource" IsDefault="True" />
+                    <Button Width="60" Margin="10" Padding="2" FontSize="12" Click="OpenDownPath" IsDefault="True">
+                        <TextBlock TextAlignment="Center" Text="打开下载位置" TextWrapping="WrapWithOverflow" />
+                    </Button>
+                </DockPanel>
+
+                <!--<ComboBox Margin="0 5 0 0" Width="160" ItemsSource="{Binding AllFunctionsList}" DisplayMemberPath="Name" SelectedItem="{Binding WantInstallPlugin}"
+                          materialDesign:HintAssist.Hint="选择插件中的功能" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                </ComboBox>
+
+                <DockPanel Margin="0 5 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ComboBox Width="80" ItemsSource="{Binding RegisteredList.RevitTabs}" DisplayMemberPath="name" SelectedItem="{Binding TabItem}"
+                          materialDesign:HintAssist.Hint="顶部Tab" Text="{Binding TabName}"
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    </ComboBox>
+                    <ComboBox Width="80" Margin="20 0 0 0" ItemsSource="{Binding TabItem.RevitPanels}" DisplayMemberPath="name" SelectedItem="{Binding PanelItem}"
+                          materialDesign:HintAssist.Hint="面板" Text="{Binding PanelName}"
+                          IsEnabled="{Binding PanelIsEnabled}"
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    </ComboBox>
+
+                    <ComboBox Width="80" Margin="20 0 0 0" ItemsSource="{Binding PanelItem.RevitPanelButtons}" DisplayMemberPath="name" SelectedItem="{Binding PanelButtonItem}"
+                              materialDesign:HintAssist.Hint="按钮组" Text="{Binding PanelButtonName}"
+                              IsEnabled="{Binding PanelButtonIsEnabled}"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    </ComboBox>
+                </DockPanel>
+                <TextBlock Margin="0 9" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="LightGreen"
+                           Text="{Binding ProcessingStatus}" />
+
+                <DockPanel Margin="0 0 0 20" HorizontalAlignment="Center">
+                    ~1~<Button Content="安装" IsEnabled="{Binding InstallIsEnable}"
+                                HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                                Command="{Binding InstallCommand}" />@1@
+
+                    <Button Tag="{Binding APMInstance.pluginurl}" Width="60" Name="InstallPlugin"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding APMInstance.IsInstalling}"
+                        materialDesign:ButtonProgressAssist.Value="{Binding APMInstance.InstallProgress}" ToolTip="安装插件"
+                        materialDesign:ButtonProgressAssist.Minimum="{Binding APMInstance.DataMinimum}"
+                        materialDesign:ButtonProgressAssist.Maximum="{Binding APMInstance.DataMaximum}"
+                        CommandParameter="{Binding SelectedIndex,ElementName=PluginTemplate}"
+                        Command="{Binding InstallCommand}"
+                        IsEnabled="{Binding InstallIsEnable}">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding APMInstance.IsEnable}" Value="false">
+                                        <Setter Property="ToolTip" Value="该插件已经安装！"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                        <StackPanel Background="Transparent">
+                            <materialDesign:PackIcon Height="24" Width="24">
+                                <materialDesign:PackIcon.Style>
+                                    <Style TargetType="materialDesign:PackIcon" BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                                        <Setter Property="Kind" Value="CloudSync" />
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding APMInstance.IsInstalling}" Value="True">
+                                                <Setter Property="Kind" Value="CloudDownloadOutline" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding APMInstance.IsInstallComplete}" Value="True">
+                                                <Setter Property="Kind" Value="Check" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </materialDesign:PackIcon.Style>
+                            </materialDesign:PackIcon>
+                        </StackPanel>
+                    </Button>
+                </DockPanel>-->
+            </StackPanel>
+        </materialDesign:Card>
     </Grid>
 </Window>
