@@ -8,7 +8,6 @@ D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\De
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\WebResourceHookWpf.g.resources
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\WebResourceHookWpf.Properties.Resources.resources
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\WebResourceHookWpf.csproj.GenerateResource.cache
-D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\WebResourceHookWpf.csproj.CoreCompileInputs.cache
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\WebResourceHookWpf.exe
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\WebResourceHookWpf.pdb
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\Debug\MaterialDesignColors.dll

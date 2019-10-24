@@ -19,14 +19,19 @@
         Name="ShellViewWin" Topmost="True" MouseLeftButtonDown="MoveWindow">
     <!-- d:DataContext="{d:DesignInstance local:ShellViewModel}" -->
     <Grid>
-        <GroupBox Header="资源下载" Style="{DynamicResource MaterialDesignCardGroupBox}" HorizontalAlignment="Left" Height="215" Margin="10,10,0,0" VerticalAlignment="Top" Width="385">
+        <GroupBox Header="资源下载" Style="{DynamicResource MaterialDesignCardGroupBox}" HorizontalAlignment="Left" Height="215" Margin="10,10,0,0" VerticalAlignment="Top" Width="385" MouseDoubleClick="WinClose">
             <StackPanel HorizontalAlignment="Center">
                 <DockPanel HorizontalAlignment="Center">
-                    <TextBox x:Name="commonUrl" Width="150" materialDesign:HintAssist.Hint="公共url" Text="{Binding CommonUrl,ElementName=ShellViewWin}" />
-                    <TextBox x:Name="resourceName" Width="150" Margin="20 0 0 0" materialDesign:HintAssist.Hint="资源名称" Text="{Binding ResourceName,ElementName=ShellViewWin}" />
+                    <TextBox x:Name="commonUrl" Width="150" materialDesign:HintAssist.Hint="公共url" Text="{Binding CommonUrl,ElementName=ShellViewWin}" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" />
+                    <TextBox x:Name="resourceName" Width="150" Margin="20 0 0 0" materialDesign:HintAssist.Hint="资源相对路径" Text="{Binding ResourceName,ElementName=ShellViewWin}" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" />
                 </DockPanel>
                 <TextBlock Name="DownResInfo" Text="{Binding DownloadResourceInfo}" />
-                <Button Width="60" Margin="10" Content="下载" Click="DownloadResource" IsDefault="True" />
+                <DockPanel HorizontalAlignment="Center">
+                    <Button Width="60" Margin="10" Content="下载" Click="DownloadResource" IsDefault="True" />
+                    <Button Width="60" Margin="10" Padding="2" FontSize="12" Click="OpenDownPath" IsDefault="True">
+                        <TextBlock TextAlignment="Center" Text="打开下载位置" TextWrapping="WrapWithOverflow" />
+                    </Button>
+                </DockPanel>
             </StackPanel>
         </GroupBox>
     </Grid>
