@@ -5,7 +5,10 @@
 
 #### 软件架构
 软件架构说明
-
+语言：c#+wpf
+Theme：MaterialDesign
+MVVM：Stylet
+FileDown：aria2c
 
 #### 安装教程
 
