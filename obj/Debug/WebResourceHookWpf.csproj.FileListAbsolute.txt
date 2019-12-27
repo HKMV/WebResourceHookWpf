@@ -23,3 +23,7 @@ D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\De
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\Pages\ShellView.baml
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\WebResourceHookWpf.csproj.CopyComplete
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\WebResourceHookWpf.csproj.Fody.CopyLocal.cache
+D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\Debug\Microsoft.WindowsAPICodePack.dll
+D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\Debug\Microsoft.WindowsAPICodePack.xml
+D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml

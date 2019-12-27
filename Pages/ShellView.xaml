@@ -14,10 +14,10 @@
         Background="Transparent" WindowStyle="None" AllowsTransparency="True"
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
-        Title="Stylet Start Project" Height="277" Width="419"
+        Title="Stylet Start Project" Height="485" Width="419"
         xmlns:s="https://github.com/canton7/Stylet"
-        Name="ShellViewWin" Topmost="True" MouseLeftButtonDown="MoveWindow">
-    <!-- d:DataContext="{d:DesignInstance local:ShellViewModel}" -->
+        Name="ShellViewWin" Topmost="True" MouseLeftButtonDown="MoveWindow" d:DataContext="{d:DesignInstance local:ShellViewModel}" >
+
     <Grid>
         <!--<GroupBox Header="资源下载" Style="{DynamicResource MaterialDesignCardGroupBox}" HorizontalAlignment="Left" Height="215" Margin="10,10,0,0" VerticalAlignment="Top" Width="385" MouseDoubleClick="WinClose">
             <StackPanel HorizontalAlignment="Center">
@@ -35,7 +35,7 @@
             </StackPanel>
         </GroupBox>-->
 
-        <materialDesign:Card Height="210" Width="340" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <materialDesign:Card Height="410" Width="340" HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <StackPanel>
                 <Grid Width="auto" HorizontalAlignment="Stretch" Background="{StaticResource PrimaryHueMidBrush}">
                     <Grid.ColumnDefinitions>
@@ -53,18 +53,48 @@
                         </TextBlock.InputBindings>
                     </TextBlock>
                 </Grid>
+                <GroupBox  Margin="10,20" Width="320" Height="130" Header="获取所有资源列表">
+                    <TextBox x:Name="resPath" Width="230" materialDesign:HintAssist.Hint="点击选择资源目录" Text="{Binding ResourcesPath}" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" Margin="0,0,0,13" >
+                        <TextBox.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{s:Action SelectPath}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                </GroupBox>
 
-                <DockPanel HorizontalAlignment="Center" Margin="0 30 0 0">
-                    <TextBox x:Name="commonUrl" Width="150" materialDesign:HintAssist.Hint="公共url" Text="{Binding CommonUrl,ElementName=ShellViewWin}" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" />
-                    <TextBox x:Name="resourceName" Width="150" Margin="20 0 0 0" materialDesign:HintAssist.Hint="资源相对路径" Text="{Binding ResourceName,ElementName=ShellViewWin}" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" />
-                </DockPanel>
-                <TextBlock Name="DownResInfo" Text="{Binding DownloadResourceInfo}" />
-                <DockPanel HorizontalAlignment="Center">
-                    <Button Width="60" Margin="10" Content="下载" Click="DownloadResource" IsDefault="True" />
-                    <Button Width="60" Margin="10" Padding="2" FontSize="12" Click="OpenDownPath" IsDefault="True">
-                        <TextBlock TextAlignment="Center" Text="打开下载位置" TextWrapping="WrapWithOverflow" />
-                    </Button>
-                </DockPanel>
+                <GroupBox Margin="10,10" Width="320" Height="180" Header="资源下载">
+                    <StackPanel>
+                        <DockPanel HorizontalAlignment="Center">
+                            <TextBox x:Name="commonUrl" Width="140" materialDesign:HintAssist.Hint="公共url" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                                      Text="{Binding CommonUrl}"  IsEnabled="{Binding DownIsEnable}"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <DockPanel>
+                                    <TextBox x:Name="resourceNames" Width="116" Margin="20 0 0 5" materialDesign:HintAssist.Hint="资源列表" Text="{Binding ResourceCount,StringFormat={}共{0}个资源}" IsEnabled="False"/>
+                                    <Button Width="10" Height="10" Padding="0" Content="X" FontSize="9" Command="{s:Action ClearResourceData}" />
+                                </DockPanel>
+                                <TextBox x:Name="resourceName" Width="136" Margin="20 0 0 0" materialDesign:HintAssist.Hint="资源相对路径" Text="{Binding ResourceName}" IsEnabled="{Binding ResourceNameIsEnable}"/>
+                            </StackPanel>
+                        </DockPanel>
+                        <TextBlock  Margin="0 2 0 0 " Padding="3" Background="#6237cffe" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding DownloadResourceInfo}" />
+                        <DockPanel HorizontalAlignment="Center">
+                            <Button Width="60" Margin="10" IsDefault="True" FontSize="12" Padding="2"
+                                    Command="{s:Action DownloadResource}" Content="{Binding DownBtnContent}" IsEnabled="{Binding DownIsEnable}"/>
+
+
+                            <Button Width="60" Margin="10" Padding="2" FontSize="12" Command="{s:Action OpenDownPath}"
+                                    materialDesign:ButtonProgressAssist.Value="{Binding DownValue}"
+                                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding DownIsIndicatorVisible}"
+                                    materialDesign:ButtonProgressAssist.Minimum="{Binding DownMin}"
+                                    materialDesign:ButtonProgressAssist.Maximum="{Binding DownMax}">
+                                <TextBlock TextAlignment="Center" Text="打开下载位置" TextWrapping="WrapWithOverflow" />
+                                <!--<Button.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick" Command="{s:Action OpenDownPath}" />
+                                </Button.InputBindings>-->
+                            </Button>
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+
+
 
                 <!--<ComboBox Margin="0 5 0 0" Width="160" ItemsSource="{Binding AllFunctionsList}" DisplayMemberPath="Name" SelectedItem="{Binding WantInstallPlugin}"
                           materialDesign:HintAssist.Hint="选择插件中的功能" Style="{StaticResource MaterialDesignFloatingHintComboBox}">

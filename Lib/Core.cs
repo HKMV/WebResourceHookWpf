@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -42,6 +43,79 @@ namespace WebResourceHookWpf.Lib
 
         #endregion 数据绑定
 
+        /// <summary>
+        /// 修正目录（检测修正目录后面是否有“/”||"\"）
+        /// </summary>
+        /// <param name="path">原目录</param>
+        /// <returns>修正后的目录</returns>
+        public static string CorrectionPath(string path)
+        {
+            string s = path.Substring(path.Length - 1);
+
+            if (path.Contains("/") && !"/".Equals(s))
+            {
+                path += "/";
+            }
+            else if (path.Contains("\\") && !"\\".Equals(s))
+            {
+                path += "\\";
+            }
+            /*
+            if (s != "/" && s != "\\")
+            {
+                path += "/";
+            }*/
+
+            return path;
+        }
+
+        /// <summary>
+        /// 获取指定目录下的所有文件(相对路径)
+        /// </summary>
+        /// <param name="path">资源路径</param>
+        /// <param name="rootPath">根路径</param>
+        /// <returns>所有文件的相对路径</returns>
+        public static List<string> GetAllFile(string path,string rootPath)
+        {
+            //StreamWriter sw = new StreamWriter(new FileStream("fileList.txt", FileMode.Append));
+            DirectoryInfo directory = new DirectoryInfo(path);
+            List<string> files = new List<string>();
+            rootPath = CorrectionPath(rootPath);
+
+            FileInfo[] fileInfos = directory.GetFiles();
+            foreach (FileInfo fi in fileInfos)
+            {
+                files.Add(fi.FullName.Replace(rootPath,""));
+            }
+
+            DirectoryInfo[] directoryInfos= directory.GetDirectories();
+            foreach (DirectoryInfo di in directoryInfos)
+            {
+                files.AddRange(GetAllFile(di.FullName, rootPath));
+            }
+            
+
+            return files;
+        }
+
+        /// <summary>
+        /// 写出到文件
+        /// </summary>
+        /// <param name="path">存放的目录</param>
+        /// <param name="info">写出的信息</param>
+        public static void WriteErrorlogToFile(string path, string info)
+        {
+            try
+            {
+                File.AppendAllText("error.log", "[E]" + "  " + DateTime.Now + " --> " + info + "\n");
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("写入日志出错:" + e.Message + "\n" + e.StackTrace);
+            }
+        }
+
+
         #region Aria2c
 
         /// <summary>
@@ -52,6 +126,11 @@ namespace WebResourceHookWpf.Lib
         /// <returns></returns>
         public static bool DownloadFileByAria2Async(string url, string saveFilePath)
         {
+            if (!Directory.Exists(saveFilePath))
+            {
+                Directory.CreateDirectory(saveFilePath);
+            }
+
             var tool = Environment.CurrentDirectory + "\\Down\\aria2c.exe";
             string[] strings = url.Split('/');
             string FileName = strings[strings.Length - 1];
