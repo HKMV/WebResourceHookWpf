@@ -66,14 +66,14 @@
                     <StackPanel>
                         <DockPanel HorizontalAlignment="Center">
                             <TextBox x:Name="commonUrl" Width="140" materialDesign:HintAssist.Hint="公共url" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
-                                      Text="{Binding CommonUrl}"  IsEnabled="{Binding DownIsEnable}"/>
+                                      Text="{Binding CommonUrl}"  ToolTip="{Binding CommonUrl}" IsEnabled="{Binding DownIsEnable}"/>
                             <StackPanel VerticalAlignment="Center">
                                 <DockPanel>
                                     <TextBox x:Name="resourceNames" Width="116" Margin="20 0 0 5" materialDesign:HintAssist.Hint="资源列表" Text="{Binding ResourceCount,StringFormat={}共{0}个资源}" IsEnabled="False"/>
                                     <Button Width="10" Height="10" Padding="0" Content="X" FontSize="9" ToolTip="清楚选择数据😀"
                                             Command="{s:Action ClearResourceData}"  IsEnabled="{Binding DownIsEnable}"/>
                                 </DockPanel>
-                                <TextBox x:Name="resourceName" Width="136" Margin="20 0 0 0" materialDesign:HintAssist.Hint="资源相对路径" Text="{Binding ResourceName}" IsEnabled="{Binding ResourceNameIsEnable}"/>
+                                <TextBox x:Name="resourceName" Width="136" Margin="20 0 0 0" materialDesign:HintAssist.Hint="资源相对路径" Text="{Binding ResourceName}" ToolTip="{Binding ResourceName}" IsEnabled="{Binding ResourceNameIsEnable}"/>
                             </StackPanel>
                         </DockPanel>
                         <TextBlock  Margin="0 2 0 0 " Padding="3" Background="#6237cffe" VerticalAlignment="Center" HorizontalAlignment="Center"
