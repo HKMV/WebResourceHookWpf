@@ -320,14 +320,15 @@ namespace WebResourceHookWpf.Pages
 
                 if (ResourceNameIsEnable)
                 {
-                    DownMax = 1;
-                    DownValue = 0;
+                    DownMax = 2;
+                    DownValue = 1;
 
                     string url = CommonUrl + ResourceName;
-                    MessageBox.Show("完整地址：" + url);
+                    //MessageBox.Show("完整地址：" + url);
+                    DownloadResourceInfo = "正在下载：" + url.Substring(0, url.IndexOf("/", 7) + 1) + "..." + url.Substring(url.LastIndexOf("/"));
                     bool downloadFileByAria2Async = Core.DownloadFileByAria2Async(url, DownloadPath);
-                    MessageBox.Show("下载是否成功：" + downloadFileByAria2Async);
-                    DownValue = 1;
+                    //MessageBox.Show("下载是否成功：" + downloadFileByAria2Async);
+                    DownValue = 2;
                 }
                 else
                 {
