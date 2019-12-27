@@ -350,6 +350,7 @@ namespace WebResourceHookWpf.Pages
                         DownValue = ++i;
                     }
                 }
+                DownloadResourceInfo = "资源下载完毕。";
                 DownBtnContent = "下载";
                 DownIsEnable = true;
                 DownIsIndicatorVisible = false;
