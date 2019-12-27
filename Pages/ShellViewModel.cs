@@ -18,14 +18,14 @@ namespace WebResourceHookWpf.Pages
         /// <summary>
         /// 资源路径
         /// </summary>
-        private string _resourcesPath=null;
+        private string _resourcesPath = null;
         public string ResourcesPathToolTip { get { return _resourcesPath; } set { _resourcesPath = value; } }
         public string ResourcesPath
         {
             get
             {
                 string show = _resourcesPath;
-                if (null != show)
+                if (null != show && show.Contains("\\"))
                 {
                     int s = show.IndexOf("\\");
                     int e = show.LastIndexOf("\\");
@@ -180,7 +180,7 @@ namespace WebResourceHookWpf.Pages
         }
 
         public string _downloadResourceInfo = null;
-        public string DownloadResourceInfoToolTip { get { return _downloadResourceInfo; }set { _downloadResourceInfo = value; } }
+        public string DownloadResourceInfoToolTip { get { return _downloadResourceInfo; } set { _downloadResourceInfo = value; } }
         public string DownloadResourceInfo
         {
             get
@@ -392,6 +392,30 @@ namespace WebResourceHookWpf.Pages
                 streamWriter.WriteLine("目录\"" + path + "\" 下的文件如下:");
                 streamWriter.WriteLine(string.Join("\n", resourceFiles.ToArray()));
                 streamWriter.Close();
+            }
+        }
+
+        public void ImportFromFile()
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            //dialog.IsFolderPicker = true;  // 这里一定要设置true，不然就是选择文件
+            dialog.Filters.Add(new CommonFileDialogFilter("列表文件", "*.list"));
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string path = dialog.FileName;
+                Console.WriteLine("选择的文件是:" + path);
+                string[] files = File.ReadAllLines(path);
+                if (files.Length > 0)
+                {
+                    ResourcesPath = "已从文件导入,可重新选择文件夹。";
+                    resourceFiles = new List<string>(files);
+                    string s = files[0];
+                    if (s.Contains("目录") || s.Contains("文件如下"))
+                    {
+                        resourceFiles.RemoveAt(1);
+                    }
+                    ResourceCount = resourceFiles.Count;
+                }
             }
         }
 

@@ -27,3 +27,5 @@ D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\De
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\Debug\Microsoft.WindowsAPICodePack.xml
 D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\bin\Debug\Down\aria2c.exe
+D:\Serenity\VStudioProject\IProject\WebResourceHookWpf\WebResourceHookWpf\obj\Debug\WebResourceHookWpf_Content.g.cs

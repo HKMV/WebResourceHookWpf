@@ -54,12 +54,18 @@
                     </TextBlock>
                 </Grid>
                 <GroupBox  Margin="10,20" Width="320" Height="130" Header="获取所有资源列表">
-                    <TextBox x:Name="resPath" Width="230" materialDesign:HintAssist.Hint="点击选择资源目录" Margin="0,0,0,13" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                    <DockPanel>
+                        <TextBox x:Name="resPath" Width="230" materialDesign:HintAssist.Hint="点击选择资源目录" Margin="0,0,0,13" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
                              Text="{Binding ResourcesPath}" ToolTip="{Binding ResourcesPathToolTip}" >
-                        <TextBox.InputBindings>
-                            <MouseBinding MouseAction="LeftClick" Command="{s:Action SelectPath}" />
-                        </TextBox.InputBindings>
-                    </TextBox>
+                            <TextBox.InputBindings>
+                                <MouseBinding MouseAction="LeftClick" Command="{s:Action SelectPath}" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button Margin="12" Padding="2" FontSize="10" Command="{s:Action ImportFromFile}">
+                            <TextBlock TextAlignment="Center" Text="从文件导入列表" TextWrapping="WrapWithOverflow" />
+                        </Button>
+                    </DockPanel>
+
                 </GroupBox>
 
                 <GroupBox Margin="10,10" Width="320" Height="180" Header="资源下载">
