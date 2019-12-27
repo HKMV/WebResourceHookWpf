@@ -335,7 +335,7 @@ namespace WebResourceHookWpf.Pages
                     //MessageBox.Show("完整地址：" + url);
                     //DownloadResourceInfo = "正在下载：" + url.Substring(0, url.IndexOf("/", 7) + 1) + "..." + url.Substring(url.LastIndexOf("/"));
                     DownloadResourceInfo = "正在下载：" + url;
-                    bool downloadFileByAria2Async = Core.DownloadFileByAria2Async(url, DownloadPath);
+                    bool downloadFileByAria2 = Core.DownloadFileByAria2(url, DownloadPath);
                     //MessageBox.Show("下载是否成功：" + downloadFileByAria2Async);
                     DownValue = 2;
                 }
@@ -351,12 +351,20 @@ namespace WebResourceHookWpf.Pages
                         //string showFileUrl = fileUrl.Substring(0, s + 1) + "..." + fileUrl.Substring(e);
                         DownloadResourceInfo = "正在下载：" + fileUrl;
                         string path = DownloadPath + "\\" + Path.GetDirectoryName(file);
-                        if (!Core.DownloadFileByAria2Async(fileUrl, path))
+                        try
                         {
-                            //MessageBox.Show(fileUrl + "下载失败");
+                            if (!Core.DownloadFileByAria2(fileUrl, path))
+                            {
+                                //MessageBox.Show(fileUrl + "下载失败");
 
-                            Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败");
+                                Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败");
+                            }
                         }
+                        catch (Exception e)
+                        {
+                            Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败。"+e.Message);
+                        }
+
                         DownValue = ++i;
                     }
                 }
@@ -398,7 +406,6 @@ namespace WebResourceHookWpf.Pages
         public void ImportFromFile()
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            //dialog.IsFolderPicker = true;  // 这里一定要设置true，不然就是选择文件
             dialog.Filters.Add(new CommonFileDialogFilter("列表文件", "*.list"));
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
@@ -412,7 +419,7 @@ namespace WebResourceHookWpf.Pages
                     string s = files[0];
                     if (s.Contains("目录") || s.Contains("文件如下"))
                     {
-                        resourceFiles.RemoveAt(1);
+                        resourceFiles.RemoveAt(0);
                     }
                     ResourceCount = resourceFiles.Count;
                 }

@@ -124,7 +124,7 @@ namespace WebResourceHookWpf.Lib
         /// <param name="url">下载地址</param>
         /// <param name="saveFilePath">保存路径(不含文件名)</param>
         /// <returns></returns>
-        public static bool DownloadFileByAria2Async(string url, string saveFilePath)
+        public static bool DownloadFileByAria2(string url, string saveFilePath)
         {
             if (!Directory.Exists(saveFilePath))
             {
