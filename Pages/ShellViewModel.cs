@@ -180,10 +180,17 @@ namespace WebResourceHookWpf.Pages
         }
 
         public string _downloadResourceInfo = null;
+        public string DownloadResourceInfoToolTip { get { return _downloadResourceInfo; }set { _downloadResourceInfo = value; } }
         public string DownloadResourceInfo
         {
             get
             {
+                if (_downloadResourceInfo != null)
+                {
+                    int s = _downloadResourceInfo.IndexOf("/", 7);
+                    int e = _downloadResourceInfo.LastIndexOf("/");
+                    return _downloadResourceInfo.Substring(0, s + 1) + "..." + _downloadResourceInfo.Substring(e);
+                }
                 return _downloadResourceInfo;
             }
             set
@@ -192,6 +199,7 @@ namespace WebResourceHookWpf.Pages
                 {
                     return;
                 }
+                DownloadResourceInfoToolTip = value;
                 _downloadResourceInfo = value;
             }
         }
@@ -238,7 +246,7 @@ namespace WebResourceHookWpf.Pages
             }
         }
 
-        public string _downBtnContent="下载";
+        public string _downBtnContent = "下载";
         public string DownBtnContent
         {
             get
@@ -325,7 +333,8 @@ namespace WebResourceHookWpf.Pages
 
                     string url = CommonUrl + ResourceName;
                     //MessageBox.Show("完整地址：" + url);
-                    DownloadResourceInfo = "正在下载：" + url.Substring(0, url.IndexOf("/", 7) + 1) + "..." + url.Substring(url.LastIndexOf("/"));
+                    //DownloadResourceInfo = "正在下载：" + url.Substring(0, url.IndexOf("/", 7) + 1) + "..." + url.Substring(url.LastIndexOf("/"));
+                    DownloadResourceInfo = "正在下载：" + url;
                     bool downloadFileByAria2Async = Core.DownloadFileByAria2Async(url, DownloadPath);
                     //MessageBox.Show("下载是否成功：" + downloadFileByAria2Async);
                     DownValue = 2;
@@ -337,10 +346,10 @@ namespace WebResourceHookWpf.Pages
                     foreach (string file in resourceFiles)
                     {
                         string fileUrl = CommonUrl + file.Replace("\\", "/");
-                        int s = fileUrl.IndexOf("/",7);
-                        int e = fileUrl.LastIndexOf("/");
-                        string showFileUrl = fileUrl.Substring(0, s + 1) + "..." + fileUrl.Substring(e);
-                        DownloadResourceInfo = "正在下载：" + showFileUrl;
+                        //int s = fileUrl.IndexOf("/", 7);
+                        //int e = fileUrl.LastIndexOf("/");
+                        //string showFileUrl = fileUrl.Substring(0, s + 1) + "..." + fileUrl.Substring(e);
+                        DownloadResourceInfo = "正在下载：" + fileUrl;
                         string path = DownloadPath + "\\" + Path.GetDirectoryName(file);
                         if (!Core.DownloadFileByAria2Async(fileUrl, path))
                         {
@@ -396,7 +405,7 @@ namespace WebResourceHookWpf.Pages
             ResourceCount = 0;//以上两个设计已经包含在内
         }
 
-        
+
         //public void UploadUI(Action action)
         //{
         //    Dispatcher.CurrentDispatcher.BeginInvoke(action);
