@@ -54,7 +54,8 @@
                     </TextBlock>
                 </Grid>
                 <GroupBox  Margin="10,20" Width="320" Height="130" Header="获取所有资源列表">
-                    <TextBox x:Name="resPath" Width="230" materialDesign:HintAssist.Hint="点击选择资源目录" Text="{Binding ResourcesPath}" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" Margin="0,0,0,13" >
+                    <TextBox x:Name="resPath" Width="230" materialDesign:HintAssist.Hint="点击选择资源目录" Margin="0,0,0,13" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                             Text="{Binding ResourcesPath}" ToolTip="{Binding ResourcesPathToolTip}" >
                         <TextBox.InputBindings>
                             <MouseBinding MouseAction="LeftClick" Command="{s:Action SelectPath}" />
                         </TextBox.InputBindings>

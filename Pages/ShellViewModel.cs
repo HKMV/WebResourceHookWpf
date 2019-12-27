@@ -18,8 +18,8 @@ namespace WebResourceHookWpf.Pages
         /// <summary>
         /// 资源路径
         /// </summary>
-        public const string ResourcesPathPropertyName = "ResourcesPath";
-        private string _resourcesPath;
+        private string _resourcesPath=null;
+        public string ResourcesPathToolTip { get { return _resourcesPath; } set { _resourcesPath = value; } }
         public string ResourcesPath
         {
             get
@@ -41,7 +41,7 @@ namespace WebResourceHookWpf.Pages
                 {
                     return;
                 }
-
+                ResourcesPathToolTip = value;
                 _resourcesPath = value;
             }
         }
