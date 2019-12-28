@@ -325,7 +325,7 @@ namespace WebResourceHookWpf.Pages
                 DownIsIndicatorVisible = true;
                 DownMin = 0;
                 DownBtnContent = "下载中···";
-
+                int flag = 0;
                 if (ResourceNameIsEnable)
                 {
                     DownMax = 2;
@@ -335,7 +335,11 @@ namespace WebResourceHookWpf.Pages
                     //MessageBox.Show("完整地址：" + url);
                     //DownloadResourceInfo = "正在下载：" + url.Substring(0, url.IndexOf("/", 7) + 1) + "..." + url.Substring(url.LastIndexOf("/"));
                     DownloadResourceInfo = "正在下载：" + url;
-                    bool downloadFileByAria2 = Core.DownloadFileByAria2(url, DownloadPath);
+                    if (!Core.DownloadFileByAria2(url, DownloadPath))
+                    {
+                        ++flag;
+                        Core.WriteErrorlogToFile("error.log", url + "下载失败");
+                    }
                     //MessageBox.Show("下载是否成功：" + downloadFileByAria2Async);
                     DownValue = 2;
                 }
@@ -356,7 +360,7 @@ namespace WebResourceHookWpf.Pages
                             if (!Core.DownloadFileByAria2(fileUrl, path))
                             {
                                 //MessageBox.Show(fileUrl + "下载失败");
-
+                                ++flag;
                                 Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败");
                             }
                         }
@@ -368,7 +372,15 @@ namespace WebResourceHookWpf.Pages
                         DownValue = ++i;
                     }
                 }
-                DownloadResourceInfo = "资源下载完毕。";
+                if (flag > 0)
+                {
+                    DownloadResourceInfo = "有"+flag+"个资源下载失败，请查看error.log日志文件。";
+                }
+                else
+                {
+                    DownloadResourceInfo = "资源下载完毕。";
+                }
+
                 DownBtnContent = "下载";
                 DownIsEnable = true;
                 DownIsIndicatorVisible = false;
