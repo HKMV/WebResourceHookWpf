@@ -1,9 +1,7 @@
 目录"D:\Serenity\IDEA_Project\JianTu\bim-universal-platform\wzx-modules\wzx-design-system\src\main\resources\static\forge-viewer\js\viewer" 下的文件如下:
+style.min.css
 lmvworker.min.js
-three.min.js
 viewer3D.min.js
-wgs.min.js
-extensions\ExtensionInfo.md
 extensions\BimWalk\BimWalk.min.js
 extensions\CompGeom\CompGeom.min.js
 extensions\CrossFadeEffects\CrossFadeEffects.min.js
@@ -96,6 +94,8 @@ res\locales\zh-HANT\VCcrossRGBA8small.dds
 res\textures\cardinalPoint.png
 res\textures\centerMarker_X.png
 res\textures\radial-fade-grid.png
+res\textures\VCcompass-pointer-b.png
+res\textures\VCcompass-base.png
 res\textures\VCarrows.png
 res\textures\VCarrowsS0.png
 res\textures\VCarrowsS1.png

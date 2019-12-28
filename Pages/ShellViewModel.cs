@@ -185,7 +185,7 @@ namespace WebResourceHookWpf.Pages
         {
             get
             {
-                if (_downloadResourceInfo != null)
+                if (_downloadResourceInfo != null && _downloadResourceInfo.Contains("/"))
                 {
                     int s = _downloadResourceInfo.IndexOf("/", 7);
                     int e = _downloadResourceInfo.LastIndexOf("/");
@@ -362,7 +362,7 @@ namespace WebResourceHookWpf.Pages
                         }
                         catch (Exception e)
                         {
-                            Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败。"+e.Message);
+                            Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败。" + e.Message);
                         }
 
                         DownValue = ++i;
