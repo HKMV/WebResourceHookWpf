@@ -73,7 +73,7 @@ namespace WebResourceHookWpf.Lib
         /// 获取指定目录下的所有文件(相对路径)
         /// </summary>
         /// <param name="path">资源路径</param>
-        /// <param name="rootPath">根路径</param>
+        /// <param name="rootPath">根路径（为方便递归调用，实际使用中和资源路径相同即可）</param>
         /// <returns>所有文件的相对路径</returns>
         public static List<string> GetAllFile(string path,string rootPath)
         {

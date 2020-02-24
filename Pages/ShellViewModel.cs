@@ -15,6 +15,14 @@ namespace WebResourceHookWpf.Pages
     public class ShellViewModel : Screen
     {
         #region 资源绑定
+
+
+        /// <summary>
+        /// 资源获取模块是否可以操作
+        /// </summary>
+        private bool _resIsEnable = true;
+        public bool ResIsEnable { get { return _resIsEnable; } set { _resIsEnable = value; } }
+
         /// <summary>
         /// 资源路径
         /// </summary>
@@ -291,6 +299,80 @@ namespace WebResourceHookWpf.Pages
         }
         #endregion 下载按钮
 
+
+        #region 上传资源到七牛云
+
+        public bool _upIsEnable = true;
+        public bool UpIsEnable { get { return _upIsEnable; } set { _upIsEnable = value; } }
+
+
+        public string _accessKey = "";
+        public string AccessKey
+        {
+            get
+            {
+                if (QiniuHelp.Settings.AccessKey != _accessKey)
+                {
+                    QiniuHelp.Settings.AccessKey = _accessKey;
+                }
+                return _accessKey;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
+                _accessKey = value;
+                QiniuHelp.Settings.AccessKey = value;
+            }
+        }
+
+        public string _secretKey = "";
+        public string SecretKey
+        {
+            get
+            {
+                if (QiniuHelp.Settings.SecretKey != _secretKey)
+                {
+                    QiniuHelp.Settings.SecretKey = _secretKey;
+                }
+                return _secretKey;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
+                _secretKey = value;
+                QiniuHelp.Settings.SecretKey = value;
+            }
+        }
+
+        public string _bucket = "";
+        public string Bucket
+        {
+            get { return _bucket; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
+                _bucket = value;
+            }
+        }
+
+        public string _upResourceInfo = "";
+        public string UpResourceInfo { get { return _upResourceInfo; } set { _upResourceInfo = value; } }
+
+        public string _upBtnContent = "上传";
+        public string UpBtnContent { get { return _upBtnContent; } set { _upBtnContent = value; } }
+
+
+        #endregion 上传资源到七牛云
+
         #endregion 资源绑定
 
 
@@ -321,6 +403,7 @@ namespace WebResourceHookWpf.Pages
 
             Task.Run(() =>
             {
+                ResIsEnable = false;
                 DownIsEnable = false;
                 DownIsIndicatorVisible = true;
                 DownMin = 0;
@@ -374,7 +457,7 @@ namespace WebResourceHookWpf.Pages
                 }
                 if (flag > 0)
                 {
-                    DownloadResourceInfo = "有"+flag+"个资源下载失败，请查看error.log日志文件。";
+                    DownloadResourceInfo = "有" + flag + "个资源下载失败，请查看error.log日志文件。";
                 }
                 else
                 {
@@ -382,6 +465,7 @@ namespace WebResourceHookWpf.Pages
                 }
 
                 DownBtnContent = "下载";
+                ResIsEnable = true;
                 DownIsEnable = true;
                 DownIsIndicatorVisible = false;
             });
@@ -453,6 +537,50 @@ namespace WebResourceHookWpf.Pages
         //{
         //    Dispatcher.CurrentDispatcher.BeginInvoke(action);
         //}
+
+        public void SelectResource()
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;  // 这里一定要设置true，不然就是选择文件
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string path = dialog.FileName;
+                Console.WriteLine("选择的目录是:" + path);
+                UpResourceInfo = path;
+            }
+        }
+
+        public void UpResource()
+        {
+            Task.Run(async () =>
+            {
+                if (Directory.Exists(UpResourceInfo))
+                {
+                    UpIsEnable = false;
+                    UpBtnContent = "上传中...";
+                    string[] files = Directory.GetFiles(UpResourceInfo, "*", SearchOption.AllDirectories);
+
+                    string path = UpResourceInfo.Substring(UpResourceInfo.LastIndexOf("\\") + 1);
+                    foreach (var file in files)
+                    {
+                        int num = file.IndexOf(path);
+                        //num = num < 0 ? 0 : num;
+                        string key = file.Substring(num).Replace("\\", "/");
+                        UpResourceInfo = "正在上传：" + key;
+                        key = "resources/" + key;//决定了上传成功后的文件所在位置
+                        string res = await QiniuHelp.UploadFileAsync(Bucket, key, file);
+                        Console.WriteLine("上传成功:" + res);
+                    };
+                    UpResourceInfo = "上传完成。";
+                    UpIsEnable = true;
+                    UpBtnContent = "上传";
+                }
+                else
+                {
+                    UpResourceInfo = "请重新选择要上传的目录！";
+                }
+            });
+        }
 
 
     }

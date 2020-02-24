@@ -14,7 +14,7 @@
         Background="Transparent" WindowStyle="None" AllowsTransparency="True"
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
-        Title="Stylet Start Project" Height="485" Width="419"
+        Title="Stylet Start Project" Height="685" Width="419"
         xmlns:s="https://github.com/canton7/Stylet"
         Name="ShellViewWin" Topmost="True" MouseLeftButtonDown="MoveWindow" d:DataContext="{d:DesignInstance local:ShellViewModel}" >
 
@@ -35,7 +35,7 @@
             </StackPanel>
         </GroupBox>-->
 
-        <materialDesign:Card Height="410" Width="340" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <materialDesign:Card Height="610" Width="340" HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <StackPanel>
                 <Grid Width="auto" HorizontalAlignment="Stretch" Background="{StaticResource PrimaryHueMidBrush}">
                     <Grid.ColumnDefinitions>
@@ -53,7 +53,7 @@
                         </TextBlock.InputBindings>
                     </TextBlock>
                 </Grid>
-                <GroupBox  Margin="10,20" Width="320" Height="130" Header="获取所有资源列表">
+                <GroupBox  Margin="10,20" Width="320" Height="130" Header="获取所有资源列表" IsEnabled="{Binding ResIsEnable}">
                     <DockPanel>
                         <TextBox x:Name="resPath" Width="230" materialDesign:HintAssist.Hint="点击选择资源目录" Margin="0,0,0,13" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
                              Text="{Binding ResourcesPath}" ToolTip="{Binding ResourcesPathToolTip}" >
@@ -99,6 +99,29 @@
                                     <MouseBinding MouseAction="LeftClick" Command="{s:Action OpenDownPath}" />
                                 </Button.InputBindings>-->
                             </Button>
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Margin="10,10" Width="320" Height="180" Header="上传到七牛云进行cdn加速"  IsEnabled="{Binding UpIsEnable}">
+                    <StackPanel>
+                        <DockPanel HorizontalAlignment="Center">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBox Width="136" Margin="20 0 0 5" materialDesign:HintAssist.Hint="AccessKey" Text="{Binding AccessKey}" ToolTip="{Binding AccessKey}"/>
+                                <TextBox Width="136" Margin="20 0 0 0" materialDesign:HintAssist.Hint="SecretKey" Text="{Binding SecretKey}" ToolTip="{Binding SecretKey}"/>
+                            </StackPanel>
+                            <TextBox Width="140" materialDesign:HintAssist.Hint="上传到的桶（标识）" Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                                      Text="{Binding Bucket,UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Bucket}"/>
+                        </DockPanel>
+                        <TextBlock  Margin="0 2 0 0 " Padding="3" Background="#6237cffe" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    ToolTip="{Binding UpResourceInfo}" Text="{Binding UpResourceInfo}" />
+                        <DockPanel HorizontalAlignment="Center">
+                            <Button Width="60" Margin="10" IsDefault="True" FontSize="12" Padding="2"
+                                    Command="{s:Action SelectResource}">
+                                <TextBlock TextAlignment="Center" Text="选择资源目录" TextWrapping="WrapWithOverflow" />
+                            </Button>
+                            <Button Width="60" Margin="10" IsDefault="True" FontSize="12" Padding="2" ToolTip="上传成功后，会在七牛云指定桶中resources目录中的，当前选择的本地目录名路径中。"
+                                    Command="{s:Action UpResource}" Content="{Binding UpBtnContent}"/>
                         </DockPanel>
                     </StackPanel>
                 </GroupBox>
