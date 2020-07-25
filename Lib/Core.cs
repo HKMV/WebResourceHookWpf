@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace WebResourceHookWpf.Lib
 {
@@ -136,7 +137,13 @@ namespace WebResourceHookWpf.Lib
             string FileName = strings[strings.Length - 1];
             saveFilePath = saveFilePath + "\\" + FileName;
             var fi = new FileInfo(saveFilePath);
-            var command = " -c -s 10 -x 10  --file-allocation=none --check-certificate=false -d " + fi.DirectoryName + " -o " + fi.Name + " " + url;
+
+            var logPath = new FileInfo(Environment.CurrentDirectory + "\\Down\\log\\"+fi.Name + ".log");
+            if (!Directory.Exists(logPath.DirectoryName)) Directory.CreateDirectory(logPath.DirectoryName);
+
+            if (logPath.Exists) logPath.Delete();
+            //参数配置详见 aria2c -h
+            var command = "-l "+ logPath.FullName +" -c -V -s 10 -x 10 -j 10 -k 39k --file-allocation=falloc --check-certificate=false -d " + fi.DirectoryName + " -o " + fi.Name + " " + url;
             using (var p = new Process())
             {
                 RedirectExcuteProcess(p, tool, command, (s, e) => ShowInfo(url, e.Data));
