@@ -60,7 +60,7 @@ namespace WebResourceHookWpf.Pages
         /// </summary>
         public const string CommonUrlPropertyName = "CommonUrl";
 
-        private string _commonUrl = "https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/";
+        private string _commonUrl = "";
 
         /// <summary>
         /// Sets 和 gets CommonUrl 的属性。
