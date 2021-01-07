@@ -94,6 +94,8 @@
     <Compile Include="Lib\Core.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lib\FileHeadEnum.cs" />
+    <Compile Include="Lib\JsonSplit.cs" />
     <Compile Include="Lib\QiniuHelp.cs" />
     <Compile Include="Model\ShellViewModel.cs" />
     <Compile Include="Pages\ShellView.xaml.cs">

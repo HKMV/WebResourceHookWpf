@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -408,7 +410,7 @@ namespace WebResourceHookWpf.Pages
                 DownIsIndicatorVisible = true;
                 DownMin = 0;
                 DownBtnContent = "下载中···";
-                int flag = 0;
+                int errorFlag = 0;
                 if (ResourceNameIsEnable)
                 {
                     DownMax = 2;
@@ -420,7 +422,7 @@ namespace WebResourceHookWpf.Pages
                     DownloadResourceInfo = "正在下载：" + url;
                     if (!Core.DownloadFileByAria2(url, DownloadPath))
                     {
-                        ++flag;
+                        ++errorFlag;
                         Core.WriteErrorlogToFile("error.log", url + "下载失败");
                     }
                     //MessageBox.Show("下载是否成功：" + downloadFileByAria2Async);
@@ -430,34 +432,24 @@ namespace WebResourceHookWpf.Pages
                 {
                     DownMax = resourceFiles.Count;
                     int i = 0;
-                    foreach (string file in resourceFiles)
+                    foreach (string filePath in resourceFiles)
                     {
-                        string fileUrl = CommonUrl + file.Replace("\\", "/");
+                        string fileUrl = CommonUrl + filePath.Replace("\\", "/");
                         //int s = fileUrl.IndexOf("/", 7);
                         //int e = fileUrl.LastIndexOf("/");
                         //string showFileUrl = fileUrl.Substring(0, s + 1) + "..." + fileUrl.Substring(e);
                         DownloadResourceInfo = "正在下载：" + fileUrl;
-                        string path = DownloadPath + "\\" + Path.GetDirectoryName(file);
-                        try
-                        {
-                            if (!Core.DownloadFileByAria2(fileUrl, path))
-                            {
-                                //MessageBox.Show(fileUrl + "下载失败");
-                                ++flag;
-                                Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败");
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败。" + e.Message);
-                        }
+                        string fileLocalPath = DownloadPath + "\\" + Path.GetDirectoryName(filePath);
+                        fileLocalPath = Core.CorrectionPath(fileLocalPath);
+
+                        downFile(fileUrl, fileLocalPath, ref errorFlag);
 
                         DownValue = ++i;
                     }
                 }
-                if (flag > 0)
+                if (errorFlag > 0)
                 {
-                    DownloadResourceInfo = "有" + flag + "个资源下载失败，请查看error.log日志文件。";
+                    DownloadResourceInfo = "有" + errorFlag + "个资源下载失败，请查看error.log日志文件。";
                 }
                 else
                 {
@@ -469,6 +461,98 @@ namespace WebResourceHookWpf.Pages
                 DownIsEnable = true;
                 DownIsIndicatorVisible = false;
             });
+        }
+        /// <summary>
+        /// 校验数据是否正确
+        /// </summary>
+        /// <param name="fileLocalAllPath">文件本地全路径</param>
+        /// <returns></returns>
+        private bool checkDownFile(string fileLocalAllPath)
+        {
+            string extenName = Path.GetExtension(fileLocalAllPath);
+            if (!File.Exists(fileLocalAllPath))
+            {
+                return false;
+            }
+
+            StreamReader streamReader = new StreamReader(new FileStream(fileLocalAllPath, FileMode.Open, FileAccess.Read), Encoding.UTF8);
+            string lineText = streamReader.ReadLine();
+            streamReader.Close();
+            // string checkText = lineText.Substring(0, 3);
+            bool isOk = false;
+            Regex regChina = new Regex("[^\x00-\xFF]+");//匹配中文或是乱码，这里不存在中文，所以为乱码
+            switch (extenName)
+            {
+                case ".js":
+                {
+                    bool isError = regChina.IsMatch(lineText);
+                    isOk = !isError;
+                    break;
+                }
+                case ".css":
+                {
+                    bool isError = regChina.IsMatch(lineText);
+                    isOk = !isError;
+                    break;
+                }
+                case ".png":
+                {
+                    isOk = lineText.Contains(FileHeadEnum.PNG.GetRemark());
+                    break;
+                }
+                case ".json":
+                {
+                    string readAllText = File.ReadAllText(fileLocalAllPath);
+                    bool isJson = JsonSplit.IsJson(readAllText);
+                    isOk = isJson;
+                    break;
+                }
+                case ".dds":
+                {
+                    isOk = lineText.Contains(FileHeadEnum.DDS.GetRemark());
+                    break;
+                }
+                default:
+                {
+                    isOk = true;
+                    break;
+                }
+            }
+            return isOk;
+        } 
+
+        /// <summary>
+        /// 下载并校验文件
+        /// </summary>
+        /// <param name="fileUrl">文件网络地址</param>
+        /// <param name="fileLocalPath">文件本地存放目录（不含文件名）</param>
+        /// <param name="errorFlag">失败标记位</param>
+        private void downFile(string fileUrl,string fileLocalPath, ref int errorFlag)
+        {
+            try
+            {
+                if (!Core.DownloadFileByAria2(fileUrl, fileLocalPath))
+                {
+                    //MessageBox.Show(fileUrl + "下载失败");
+                    ++errorFlag;
+                    Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败");
+                }
+                else
+                {
+                    string fileName = Path.GetFileName(fileUrl);
+                    string fileLocalAllPath = fileLocalPath+fileName;
+                    if (!checkDownFile(fileLocalAllPath))
+                    {
+                        File.Delete(fileLocalAllPath);
+                        downFile(fileUrl, fileLocalPath, ref errorFlag);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                errorFlag = ++errorFlag;
+                Core.WriteErrorlogToFile("error.log", fileUrl + "下载失败。" + e.Message);
+            }
         }
 
 
