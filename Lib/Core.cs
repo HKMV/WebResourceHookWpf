@@ -143,7 +143,7 @@ namespace WebResourceHookWpf.Lib
 
             if (logPath.Exists) logPath.Delete();
             //参数配置详见 aria2c -h
-            var command = "-l "+ logPath.FullName +" -c -V -s 10 -x 10 -j 10 -k 39k --file-allocation=falloc --check-certificate=false -d " + fi.DirectoryName + " -o " + fi.Name + " " + url;
+            var command = "-l "+ logPath.FullName + " -c -V -s 10 -x 10 -j 10 -k 39k --file-allocation=falloc --check-certificate=false --auto-file-renaming=false -d " + fi.DirectoryName + " -o " + fi.Name + " " + url;
             using (var p = new Process())
             {
                 RedirectExcuteProcess(p, tool, command, (s, e) => ShowInfo(url, e.Data));
