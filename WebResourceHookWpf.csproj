@@ -142,6 +142,7 @@
     <Content Include="Down\aria2c.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Lib\乱码文件案例.js" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

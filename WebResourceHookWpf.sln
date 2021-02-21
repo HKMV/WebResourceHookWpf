@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebResourceHookWpf", "WebResourceHookWpf.csproj", "{83C3B562-64A9-4903-B7E6-B8CF22AF59B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83C3B562-64A9-4903-B7E6-B8CF22AF59B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83C3B562-64A9-4903-B7E6-B8CF22AF59B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83C3B562-64A9-4903-B7E6-B8CF22AF59B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83C3B562-64A9-4903-B7E6-B8CF22AF59B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC60A92C-4A26-4216-9F72-52F886293CC6}
+	EndGlobalSection
+EndGlobal
